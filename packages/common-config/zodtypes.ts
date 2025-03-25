@@ -21,11 +21,12 @@ export const spaceObject = z.object({
 
 
 export const testimonialObject = z.object({
+    spaceId : z.string(),   
     customername : z.string().max(30, {message : "max 30 letters is allowed"}).min(3, {message : "minimum 3 letters are needed"}),
     review : z.string().min(10, {message : "minimum 10 letters needed for a review"}).max(200, {message : "max is 200 for review"}),
     customeremail : z.string().email(),
-    videoUrl : z.string(),
-    customerimage : z.string(),
-    stars : z.number(),
+    videoUrl : z.string().optional(),
+    customerimage : z.string().optional(),
+    stars : z.string(),
     customerCompany : z.string().max(30, {message : "max 30 lettes allowed"}).optional()
 })

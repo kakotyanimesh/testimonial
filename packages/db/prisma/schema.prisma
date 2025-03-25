@@ -15,11 +15,12 @@ datasource db {
 
 
 model User {
-  id          String      @default(uuid())      @id
-  email       String      @unique
-  username    String      @unique
-  password    String
-  spaces      Spaces[]
+  id            String      @default(uuid())      @id
+  email         String      @unique
+  username      String      @unique
+  password      String
+  spaces        Spaces[]
+  testimonials  TestimonialInformation[]
 
 }
 
@@ -36,6 +37,8 @@ model Spaces {
 
 model TestimonialInformation {
   id                  Int       @default(autoincrement())   @id
+  adminId             String
+  admin               User     @relation(fields: [adminId], references: [id])
   spaceId             Int
   space               Spaces    @relation(fields: [spaceId], references: [id])
   customername        String

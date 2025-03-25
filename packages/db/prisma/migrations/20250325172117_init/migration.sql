@@ -21,6 +21,7 @@ CREATE TABLE "Spaces" (
 -- CreateTable
 CREATE TABLE "TestimonialInformation" (
     "id" SERIAL NOT NULL,
+    "adminId" TEXT NOT NULL,
     "spaceId" INTEGER NOT NULL,
     "customername" TEXT NOT NULL,
     "review" TEXT NOT NULL,
@@ -43,6 +44,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- AddForeignKey
 ALTER TABLE "Spaces" ADD CONSTRAINT "Spaces_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TestimonialInformation" ADD CONSTRAINT "TestimonialInformation_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TestimonialInformation" ADD CONSTRAINT "TestimonialInformation_spaceId_fkey" FOREIGN KEY ("spaceId") REFERENCES "Spaces"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
