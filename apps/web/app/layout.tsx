@@ -1,17 +1,13 @@
 import "./globals.css";
 import "@repo/ui/styles.css";
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono   } from "next/font/google";
+import { Inter } from "next/font/google";
 
 const inter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable : "--font-jetbrains-mono",
-  subsets : ["latin"]
-})
 
 export const metadata: Metadata = {
   title: "Testimonial",
@@ -25,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${jetBrainsMono.variable} antialiased`} >{children}</body>
+      <body className={`${inter.variable} antialiased`} >{children}</body>
     </html>
   );
 }
