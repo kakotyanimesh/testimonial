@@ -15,7 +15,7 @@ export interface TcardProps {
 export default function TcardOne ({stars, isActive, author, content,authorCompany, imageUrl } : TcardProps){
     return (
         <motion.div whileHover={{y : -4}} transition={{ease : "linear"}} className={`ui-group ${isActive ? "ui-bg-[conic-gradient(#0ea5e9_30deg,transparent_360deg)] ui-p-[1px] ui-rounded-md" : undefined}`}>
-            <div className={`ui-shadow-md ui-px-10 ui-py-3 ui-bg-white ui-rounded-md ui-text-start ui-space-y-4 ui-text-sm `}>
+            <div className={`ui-shadow-md ui-px-10 ui-py-3 hover:ui-bg-slate-100 ui-bg-white ui-rounded-md ui-text-start ui-space-y-4 ui-text-sm `}>
                 <div className="flex">
                     {
                         Array.from({length : 5}).map((_, k) => (
@@ -23,7 +23,7 @@ export default function TcardOne ({stars, isActive, author, content,authorCompan
                         ))
                     }
                 </div>
-                <h1>{content}</h1>
+                <h1 className="group-hover:ui-text-blue-900">{content}</h1>
                 <div className="flex ui-items-center ui-gap-4">
                     <img src={imageUrl} alt="author image" className="ui-rounded-full ui-w-10 ui-h-10" />
                     <div>

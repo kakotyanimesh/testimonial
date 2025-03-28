@@ -33,6 +33,7 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "cloudinary-react": "^1.8.1",
     "lucide-react": "^0.484.0",
     "motion": "^12.6.2"
   }

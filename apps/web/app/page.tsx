@@ -4,6 +4,7 @@ import Header from "./components/headercomponent";
 import Features from "./components/features";
 import SocialProof from "./components/socialProof";
 import CustomerReview from "./components/customerReview";
+import PricingComponent from "./components/PricingComponent";
 
 
 
@@ -15,6 +16,7 @@ export default function HomePage(){
             <Features/>
             <SocialProof/>
             <CustomerReview/>
+            <PricingComponent/>
             
         </div>
     )

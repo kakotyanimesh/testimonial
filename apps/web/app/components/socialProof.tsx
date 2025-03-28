@@ -3,7 +3,7 @@ import { Link2, Video,Smartphone,ChartColumn,MessageCircle ,Gift  } from "lucide
 
 export default function SocialProof(){
     return (
-        <div className="flex justify-center flex-col space-y-10 items-center text-center">
+        <div className="flex justify-center flex-col space-y-10 items-center text-center border border-slate-200 md:-mx-20 md:p-20 p-3  -mx-3">
             <div className="flex flex-col justify-center items-center text-center space-y-5">
                 <h1 className="flex md:gap-3 gap-1 border-slate-100 border-2 w-fit items-center px-5 py-1 rounded-3xl text-blue-500 animate-pulse text-sm transition-all"><span className="font-bold">•</span>Social Proof</h1>
                 <h1 className="md:text-4xl font-bold text-xl tracking-tight">Everything You <span className="text-blue-400">Need</span> for Social Proof</h1>

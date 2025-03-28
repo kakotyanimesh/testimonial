@@ -9,7 +9,7 @@ interface VideoTestimonial {
 export default function VideoTestimonialCards({video, author, authorCompany, desc} : VideoTestimonial) {
     return (
         <div>
-            <video src={video}></video>
+            {/* <NextVideoPlaye */}
             <div>
                 <h1>{author}</h1>
                 <p>{authorCompany}</p>
