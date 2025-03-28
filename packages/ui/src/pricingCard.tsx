@@ -1,19 +1,21 @@
 "use client"
 import { Check } from "lucide-react"
 import Button from "./button"
+import { motion } from "motion/react"
 
 interface PricingCardProps {
     title : string,
     desc : string,
     price : string,
     features : string[],
-    isActive : boolean
+    isActive : boolean,
+    style ? : string
 }
 
 
 export default function PricingCard({title, desc, price, features, isActive} : PricingCardProps){
     return (
-        <div className={`relative ui-border-[1px] ui-w-full ui-space-y-4 ui-p-6 ui-rounded-2xl ui-text-start ${isActive ? "ui-bg-gradient-to-b ui-from-[#255DFF]/[0.16] ui-to-transparent ui-border-blue-400" : "ui-bg-white ui-border-slate-200 "}`}>
+        <div className={`relative ui-border-[1px] ui-w-full ui-space-y-4 ui-p-6 ui-rounded-2xl ui-text-start ${isActive ? `ui-bg-gradient-to-b ui-from-[#255DFF]/[0.16] ui-to-transparent ui-border-blue-400` : "ui-bg-white ui-border-slate-200 "}`}>
             <div>
             {
                 isActive && <h1 className="absolute -ui-top-3 ui-right-5 ui-text-sm ui-bg-blue-600 ui-rounded-full ui-px-3">Most Popular</h1>

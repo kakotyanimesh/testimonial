@@ -19,7 +19,7 @@ export default function TcardOne ({stars, isActive, author, content,authorCompan
                 <div className="flex">
                     {
                         Array.from({length : 5}).map((_, k) => (
-                            <Star size={14} key={k} className={stars > k  ?"ui-fill-blue-500 group-hover:ui-fill-blue-900 group-hover:ui-text-blue-950 ui-transition-colors ui-ease-linear ui-text-blue-500" : "ui-text-blue-500"} />
+                            <Star size={14} key={k} className={stars > k  ?"ui-fill-blue-500 group-hover:ui-fill-blue-700 group-hover:ui-text-blue-700 ui-transition-colors ui-ease-linear ui-text-blue-500" : "ui-text-blue-500"} />
                         ))
                     }
                 </div>

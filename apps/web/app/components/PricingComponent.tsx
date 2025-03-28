@@ -18,7 +18,7 @@ export default function PricingComponent(){
             </div> */}
             <div className="flex md:flex-row flex-col justify-between gap-4 ">
                 <PricingCard isActive={false} title="Starter" desc="For hobbies" price={"0"} features={featuresOneArray}/>
-                <PricingCard isActive={true} title="Professional" desc="Perfect for individuals and small businesses getting started with testimonials" price={`${togglePrice ? 588 : 49}`} features={featuresTwoArray}/>
+                <PricingCard isActive={true} style="py-10" title="Professional" desc="Perfect for individuals and small businesses getting started with testimonials" price={`${togglePrice ? 588 : 49}`} features={featuresTwoArray}/>
                 <PricingCard isActive={false} title="Enterprise" desc="For organizations requiring maximum control and customization." price={`${togglePrice ? 1200 : 100}`} features={featuresThreeArray}/>
             </div>
         </div>
