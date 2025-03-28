@@ -15,7 +15,7 @@ export default function Navbar(){
                     <div className="flex flex-row gap-10">
                         {
                             navbarArray.map((n,k) => (
-                                <Link className="cursor-pointer hover:text-blue-500 transition-colors delay-100 ease-out" href={n.src} key={k}>{n.title}</Link>
+                                <Link className="text-sm font-semibold cursor-pointer hover:text-blue-500 transition-colors delay-100 ease-out" href={n.src} key={k}>{n.title}</Link>
                             ))
                         }
                     </div>

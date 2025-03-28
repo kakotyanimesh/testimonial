@@ -1,30 +1,22 @@
-import { type ReactNode } from "react";
+"use client"
+import { ReactNode } from "react";
+import { motion } from "motion/react";
 
-export function Card({
-  title,
-  children,
-  href,
-}: {
-  title: string;
-  children: ReactNode;
-  href: string;
-}) {
+export interface ScardProps{
+  title : string,
+  desc : string,
+  icon : ReactNode
+}
+
+
+export default function Scard({title, desc, icon} : ScardProps) {
   return (
-    <a
-      className="ui-group ui-rounded-lg ui-border ui-border-transparent ui-px-5 ui-py-4 ui-transition-colors hover:ui-border-neutral-700 hover:ui-bg-neutral-800/30"
-      href={`${href}?utm_source=create-turbo&utm_medium=with-tailwind&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <h2 className="ui-mb-3 ui-text-2xl ui-font-semibold">
-        {title}{" "}
-        <span className="ui-inline-block ui-transition-transform group-hover:ui-translate-x-1 motion-reduce:ui-transform-none">
-          -&gt;
-        </span>
-      </h2>
-      <p className="ui-m-0 ui-max-w-[30ch] ui-text-sm ui-opacity-50">
-        {children}
-      </p>
-    </a>
-  );
+    <motion.div whileHover={{y : -4}} transition={{ease : "linear"}} className="ui-group ui-text-start ui-border-[1px] ui-border-slate-200 hover:ui-bg-gradient-to-br ui-from-blue-100 ui-via-white ui-to-white ui-transition-colors ui-ease-linear  ui-p-7 ui-rounded-md ui-shadow-sm ui-shadow-slate-200  ui-space-y-5">
+      <div className="ui-bg-blue-200 group-hover:ui-bg-blue-500 group-hover:ui-text-blue-950 ui-transition-all ui-ease-linear ui-w-fit ui-text-blue-700 ui-p-2 ui-rounded-full">{icon}</div>
+      <div className="ui-space-y-1">
+        <h1 className="group-hover:ui-text-blue-700 ui-font-semibold">{title}</h1>
+        <p className="ui-text-slate-800 ui-text-sm">{desc}</p>
+      </div>
+    </motion.div>
+  )
 }

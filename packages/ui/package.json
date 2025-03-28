@@ -33,6 +33,7 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
-    "lucide-react": "^0.484.0"
+    "lucide-react": "^0.484.0",
+    "motion": "^12.6.2"
   }
 }
