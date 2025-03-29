@@ -4,11 +4,13 @@ import Button from "@repo/ui/button"
 import Link from "next/link"
 import { Menu, X } from 'lucide-react';
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar(){
     const [mobile, setMobile] = useState<boolean>(false)
+    const router = useRouter()
     return (
-        <div className="md:-mx-20 -mx-3  md:px-20 px-3 pb-4 border-b-2 border-slate-100">
+        <div className="md:-mx-20  -mx-3  md:px-20 px-3 pb-4 border-b-2 border-slate-100">
             <div className="md:flex hidden flex-row items-center justify-between">
                 <div className="flex flex-row gap-20 items-center">
                     <h1 className="text-xl font-bold cursor-pointer">ProofCloud</h1>
@@ -21,8 +23,8 @@ export default function Navbar(){
                     </div>
                 </div>
                 <div className="space-x-5 flex ">
-                    <Button title="Sign up" variants="primary" onclick={() => alert("adasd")}/>
-                    <Button title="Log in" variants="default" onclick={() => alert("adasd")}/>
+                    <Button title="Sign up" variants="primary" onclick={() => router.push("/signup")}/>
+                    <Button title="Log in" variants="default" onclick={() => router.push("/signin")}/>
                 </div>
             </div>
             <div className="md:hidden flex justify-between">

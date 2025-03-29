@@ -12,8 +12,8 @@ import Footer from "./components/footer";
 
 export default function HomePage(){
     return (
-        <div className="md:px-20 px-3 py-5 md:space-y-32 space-y-24">
-            <Navbar/>
+        <div className="md:space-y-32 md:mt-32 mt-24 space-y-24">
+            {/* <Navbar/> */}
             <Header/>
             <Features/>
             <SocialProof/>
