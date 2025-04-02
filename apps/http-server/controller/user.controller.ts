@@ -85,7 +85,7 @@ export const signin = async (req : Request, res : Response) => {
 
         const options = {
             httpOnly : true,
-            secure : true
+            secure : process.env.version === "production"
         }
 
         res.status(200)

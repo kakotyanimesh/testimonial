@@ -27,9 +27,9 @@ const defaultStyle = "ui-cursor-pointer ui-font-medium disabled:ui-pointer-event
 export default function Button ({title, variants, onclick, style, icon, processing, processingText} : ButtonTypes) {
     return (
         <button className={`${styleVariants[variants]} ${style} ${defaultStyle} ui-font-semibold ui-text-sm w-full`} onClick={onclick}>
-            {
+            {/* {
                 processing ? <span className="animate-spin">⟳</span>: icon
-            }
+            } */}
             {
                 processing ? processingText : title
             }

@@ -1,0 +1,47 @@
+import axios  from "axios";
+
+export const baseUrl = process.env.BASE_URL || "http://localhost:4000/api/v1"
+
+const api = axios.create({
+    baseURL : baseUrl,
+    withCredentials : true
+})
+
+
+export const signupcall = async (userdata : {username : string , password : string, email : string}) => { 
+    try {
+        const res = await api.post("/user/signup", userdata)
+        return res.data
+    } catch (error) {
+        console.error(`error while sign up ${error}`)
+        throw error
+    }
+}
+
+export const signincall = async (userdata : {username : string, password : string}) => {
+    try {
+        const res = await api.post("/user/signin", userdata)
+        // console.log(res.data);
+        
+        return res.data
+    } catch (error) {
+        console.error(`error while signin ${error}`)
+        throw error
+    }
+}
+
+export const verrifyToken = async(Access_token : string) => {
+    try {
+        const res = await api.post("/token_verfify/access_token", {}, {
+            headers : {
+                Authorization : `${Access_token}`
+            }
+        })
+
+        // console.log(res);
+        return res
+        
+    } catch (error) {
+       throw new Error(`error while verifying token ${error}`) 
+    }
+}
