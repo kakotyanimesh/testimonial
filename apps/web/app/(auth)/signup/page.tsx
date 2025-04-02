@@ -42,7 +42,9 @@ export default function Signup(){
                         <input type="checkbox" className=""/> I agree to the <a href="" className="text-blue-600 mr-1">Terms of Service</a> and <a href="" className="text-blue-600">Privacy Policy</a>
                     </p>
                     <Button processing={processing} processingText="creating account..." variants="primary" onclick={signup}  title="Create Account"/>
-                    
+                    <p className="text-sm text-center">
+                        Already have an account?<a href="/signin" className="text-blue-600 ml-2">login </a>
+                    </p>
                 </div>
                 
             </div>

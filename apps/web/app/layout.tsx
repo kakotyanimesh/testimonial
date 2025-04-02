@@ -23,8 +23,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased md:px-20 px-3 py-5`} >
-        <Navbar/>
+      <body className={`${inter.variable} antialiased `} >
+        {/* <Navbar/> */}
         {children}
         {/* <Footer/> */}
       </body>
