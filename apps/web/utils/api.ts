@@ -45,3 +45,39 @@ export const verrifyToken = async(Access_token : string) => {
        throw new Error(`error while verifying token ${error}`) 
     }
 }
+
+
+export const createSpacecall = async({name, displayName} : {name : string, displayName : string}) => {
+    try {
+        const res = await api.post(`/space/createspace`, {
+            displayName,
+            name
+        })
+        return res.data
+    } catch (error) {
+        throw new Error(`error while creating space ${error}`)
+    }
+}
+
+export const getSpacecall = async() => {
+    try {
+        const res = await api.get(`/space/getAllSpace`)
+        // console.log(res);
+        
+        return res.data
+    } catch (error) {
+        throw new Error(`error while fetching space data from server ${error}`)
+    }
+}
+
+
+export const getonespacedatacall = async ({id} : {id : string}) => {
+    try {
+        const res = await api.get(`/space/getSpaceData/${id}`)
+        console.log(res);
+        
+        return res.data
+    } catch (error) {
+        throw new Error(`error while fetching single space data ${error}`)
+    }
+}
