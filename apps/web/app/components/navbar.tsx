@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Navbar(){
     const [mobile, setMobile] = useState<boolean>(false)
     const router = useRouter()
+    
     return (
         <div className="md:-mx-20  -mx-3  md:px-20 px-3 pb-4 border-b-2 border-slate-100">
             <div className="md:flex hidden flex-row items-center justify-between">
