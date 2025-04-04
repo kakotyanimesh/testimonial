@@ -74,9 +74,9 @@ export const getSpacecall = async() => {
 export const getonespacedatacall = async ({id} : {id : string}) => {
     try {
         const res = await api.get(`/space/getSpaceData/${id}`)
-        console.log(res);
+        // console.log(res);
         
-        return res.data
+        return res.data.spaceData
     } catch (error) {
         throw new Error(`error while fetching single space data ${error}`)
     }

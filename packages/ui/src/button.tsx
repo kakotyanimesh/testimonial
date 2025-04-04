@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 interface ButtonTypes {
-    title : string
+    title ?: string
     style ?:string
     variants : "primary" | "default"
     onclick : () => void
