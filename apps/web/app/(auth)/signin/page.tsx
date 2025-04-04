@@ -48,7 +48,7 @@ export default function Signin(){
                     </p>
                     <Button variants="primary" processing={processing} processingText="signing in ...." onclick={signin} title="Log In "/>
                     <p className="flex items-center text-sm">
-                        Don't have an account ?<a href="" className="text-blue-700 ml-2">Sign up</a>
+                        Don't have an account ?<a href="/signup" className="text-blue-700 ml-2">Sign up</a>
                     </p>
                 </div>
                 

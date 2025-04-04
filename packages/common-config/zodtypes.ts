@@ -16,7 +16,7 @@ export const signinObject = z.object({
 
 export const spaceObject = z.object({
     name : z.string().max(50, {message : "space name must be under 50 letters"}).min(3, {message : "minimum 3 letters is required for space name"}),
-    displayName : z.string().max(30, {message : "max 30 letters is allowed for website name"}).min(7,{message : "minimum 7 letters is required for website url"})
+    displayName : z.string().max(200, {message : "max 30 letters is allowed for website name"}).min(7,{message : "minimum 7 letters is required for website url"})
 })
 
 

@@ -66,7 +66,8 @@ export const getSpacecall = async() => {
         
         return res.data
     } catch (error) {
-        throw new Error(`error while fetching space data from server ${error}`)
+        // throw new Error(`error while fetching space data from server ${error}`)
+        console.error(error)
     }
 }
 

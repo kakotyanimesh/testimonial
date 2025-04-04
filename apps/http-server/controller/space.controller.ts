@@ -55,10 +55,10 @@ export const getAllSpace = async (req : Request, res : Response) => {
             }
         })
 
-        if(spaces.length === 0){
-            res.status(404).json({msg : "No spaces found with the admin Id"})
-            return
-        }
+        // if(spaces.length === 0){
+        //     res.status(404).json({msg : "No spaces found with the admin Id"})
+        //     return
+        // }
 
         res.status(200).json({
             msg : "all spaces retrived successfully",

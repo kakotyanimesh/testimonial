@@ -54,13 +54,13 @@ export default function Space(){
         }
     }
 
-    if(spaceloading){
-        return (
-            <div>
-                loading .... 
-            </div>
-        )
-    }
+    // if(spaceloading){
+    //     return (
+    //         <div>
+    //             loading .... 
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className=" bg-slate-50 min-h-screen space-y-10">
