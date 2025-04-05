@@ -30,3 +30,11 @@ export const testimonialObject = z.object({
     stars : z.string(),
     customerCompany : z.string().max(30, {message : "max 30 lettes allowed"}).optional()
 })
+
+
+export const testimonialQuestionsObject = z.object({
+    spaceId : z.string(),
+    questionOne : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),
+    questionTwo : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),
+    questionThree : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),
+})

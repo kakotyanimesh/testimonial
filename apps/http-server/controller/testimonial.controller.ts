@@ -1,8 +1,39 @@
 import { prisma } from "@repo/db";
-import { testimonialObject } from "common-config/types";
+import { testimonialObject, testimonialQuestionsObject } from "common-config/types";
 import type { Request, Response } from "express";
 import { multerUpload } from "../middleware/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
+
+export const creteTestimonialForm = async (req : Request, res : Response) => {
+    const parsedObject = testimonialQuestionsObject.safeParse(req.body)
+
+    if(!parsedObject.success){
+        res.status(400).json({
+            msg : `validation error at ${JSON.stringify(parsedObject.error.errors)}`
+        })
+        return
+    }
+
+    const {spaceId, questionOne, questionThree, questionTwo} = parsedObject.data
+    try {
+        const testimonialQuestionsdata = await prisma.testimonialFormQuestions.create({
+            data : {
+                spaceId : Number(spaceId),
+                questionOne : questionOne,
+                questionTwo : questionTwo,
+                questionThree : questionThree
+            }
+        })
+
+        res.status(200).json({
+            msg : "questions added successfully",
+            questions : testimonialQuestionsdata
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error at creating testimonial ${error.message}`})
+        : res.status(500).json({msg : `error at testimonial creation`})
+    }
+}
 
 export const submitTestimonial = async (req : Request, res : Response) => {
 
@@ -230,3 +261,4 @@ export const deleteTestimonial = async (req : Request, res : Response) => {
         : res.status(500).json({msg : `error at testimonial delete`})
     }
 }
+

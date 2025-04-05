@@ -15,22 +15,23 @@ datasource db {
 
 
 model User {
-  id            String      @default(uuid())      @id
-  email         String      @unique
-  username      String      @unique
-  password      String
-  spaces        Spaces[]
-  testimonials  TestimonialInformation[]
+  id                    String      @default(uuid())      @id
+  email                 String      @unique
+  username              String      @unique
+  password              String
+  spaces                Spaces[]
+  testimonials          TestimonialInformation[]
 
 }
 
 model Spaces {
-  id              Int                         @default(autoincrement())  @id
-  name            String
-  displayName     String
-  adminId         String
-  admin           User                        @relation(fields: [adminId], references: [id])
-  testimonials    TestimonialInformation[]
+  id                     Int                         @default(autoincrement())  @id
+  name                   String
+  displayName            String
+  adminId                String
+  admin                  User                        @relation(fields: [adminId], references: [id])
+  testimonials           TestimonialInformation[]
+  testimonailsQuestions  TestimonialFormQuestions[]
 }       
 
 
@@ -50,5 +51,15 @@ model TestimonialInformation {
   approaved           Boolean   @default(false)
   createdAt           DateTime  @default(now())
   customerCompany     String?
+
 }
 
+
+model TestimonialFormQuestions {
+  id                 Int        @default(autoincrement())    @id
+  questionOne        String
+  questionTwo        String
+  questionThree      String
+  space              Spaces       @relation(fields: [spaceId], references: [id])
+  spaceId            Int
+}
