@@ -82,3 +82,21 @@ export const getonespacedatacall = async ({id} : {id : string}) => {
         throw new Error(`error while fetching single space data ${error}`)
     }
 }
+
+
+export const createFormcall = async({spaceId, questionOne, questionTwo, questionThree, formTitle, formDescripton } : {spaceId : number, questionOne : string, questionTwo : string, questionThree : string, formTitle : string,formDescripton : string }) => {
+    try {
+        const res = await api.post(`/testimonial/createTestimonialForm`, {
+            spaceId,
+            questionOne,
+            questionTwo, 
+            questionThree,
+            formDescripton,
+            formTitle
+        })
+        
+        return res.data
+    } catch (error) {
+        throw new Error(`error while creating form ${error}`)
+    }
+}

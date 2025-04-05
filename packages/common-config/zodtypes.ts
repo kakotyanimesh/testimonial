@@ -33,7 +33,9 @@ export const testimonialObject = z.object({
 
 
 export const testimonialQuestionsObject = z.object({
-    spaceId : z.string(),
+    spaceId : z.number(),
+    formTitle : z.string().max(50, {message : "max 20 charcater is allowed"}),
+    formDescripton : z.string().max(200, {message : "max 200 words are allowed"}),
     questionOne : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),
     questionTwo : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),
     questionThree : z.string().trim().max(500, {message : "Questions have limit of 500 words"}),

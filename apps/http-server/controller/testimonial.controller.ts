@@ -14,14 +14,16 @@ export const creteTestimonialForm = async (req : Request, res : Response) => {
         return
     }
 
-    const {spaceId, questionOne, questionThree, questionTwo} = parsedObject.data
+    const {spaceId, formTitle, formDescripton, questionOne, questionThree, questionTwo} = parsedObject.data
     try {
         const testimonialQuestionsdata = await prisma.testimonialFormQuestions.create({
             data : {
                 spaceId : Number(spaceId),
                 questionOne : questionOne,
                 questionTwo : questionTwo,
-                questionThree : questionThree
+                questionThree : questionThree,
+                formTitle : formTitle,
+                formDescripton : formDescripton
             }
         })
 

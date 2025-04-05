@@ -40,7 +40,7 @@ export default function Space(){
             const data = await getSpacecall()
             // console.log(`all space data ${data}`);
             setAllspacedata(data.spaces)
-            console.log(allspacedata);
+            // console.log(allspacedata);
             
             setSpaceloading(false)
             

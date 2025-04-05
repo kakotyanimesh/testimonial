@@ -4,7 +4,7 @@ import { NotebookPen, Copy, Check } from "lucide-react"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-export default function CollectionComponent() {
+export default function CollectionComponent({spaceId} : {spaceId : number | undefined}) {
     const [copied, setCopied] = useState(false)
     const testimonialLink = "https://customerch.app/t/customer-testimonials"
     // const router = useRouter()
@@ -13,6 +13,8 @@ export default function CollectionComponent() {
         navigator.clipboard.writeText(testimonialLink)
         setCopied(true)
 
+        // console.log(spaceId);
+        
 
         setTimeout(() => {
             setCopied(false)
@@ -26,7 +28,7 @@ export default function CollectionComponent() {
                     <h1 className="font-semibold">Form Customization</h1>
                     <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
                     
-                      <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open("/testimonialform", "_blank")}/>
+                      <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
                     
                 </div>
             </DashboardCard>
@@ -35,7 +37,7 @@ export default function CollectionComponent() {
                     <div className="flex md:flex-row flex-col md:gap-0 gap-4 justify-between items-center">
                         <h1 className="font-semibold">Collection Form</h1>
                         <div className="">
-                            <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => window.open("/testimonialform", "_blank")}/>
+                            <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
 
                         </div>
                     </div>

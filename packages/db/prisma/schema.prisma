@@ -57,6 +57,8 @@ model TestimonialInformation {
 
 model TestimonialFormQuestions {
   id                 Int        @default(autoincrement())    @id
+  formTitle          String
+  formDescripton     String
   questionOne        String
   questionTwo        String
   questionThree      String

@@ -15,13 +15,13 @@ export default function  IndividualPage({params} : {
 }){
     const resolvedParams = use(params)
     const { id } = resolvedParams || {}
-    const [spacedata, setSpacedata] = useState([])
+    const [spacedata, setSpacedata] = useState<{id : number, name : string, adminId : string, displayName : string}>()
     const [spacebarNumber, setSpacebarNumber] = useState(0)
 
     useEffect(() => {
       const getdata = async () =>{
         try {
-            const data = await getonespacedatacall({id})
+        const data = await getonespacedatacall({id})
 
         setSpacedata(data)
         } catch (error) {
@@ -45,7 +45,7 @@ export default function  IndividualPage({params} : {
                 {/* navbar*/}
                 <h1 className="font-semibold">Testimonial Review Page </h1>
                 <div className="flex flex-row justify-between md:gap-10 gap-2">
-                    <Button title="Copy display link" variants="primary" onclick={() => alert(JSON.stringify(spacedata))}/>
+                    <Button title="Copy display link" variants="primary" onclick={() => console.log(spacedata)}/>
                     {/* <Button title="settings" variants="default" onclick={() => alert("Adads")}/> */}
                 </div>
             </div>
@@ -60,7 +60,7 @@ export default function  IndividualPage({params} : {
             </div>
             {/* we are going to render this on the basic of spacebar thingy  */}
             {
-                spacebarNumber === 0 ? <OverviewComponent onAction={() => setSpacebarNumber(2)}/> : <CollectionComponent/>
+                spacebarNumber === 0 ? <OverviewComponent onAction={() => setSpacebarNumber(2)}/> : <CollectionComponent spaceId={spacedata?.id}/>
             }
             
         </div>
