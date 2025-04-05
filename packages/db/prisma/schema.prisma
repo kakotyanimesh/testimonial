@@ -64,4 +64,5 @@ model TestimonialFormQuestions {
   questionThree      String
   space              Spaces       @relation(fields: [spaceId], references: [id])
   spaceId            Int
+  uniqueLink         String       @unique
 }

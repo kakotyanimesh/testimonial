@@ -100,3 +100,14 @@ export const createFormcall = async({spaceId, questionOne, questionTwo, question
         throw new Error(`error while creating form ${error}`)
     }
 }
+
+
+export const getTestimonialFormDataCall = async({spaceId} : {spaceId : number}) => {
+    try {
+        const res = await api.get(`/testimonial/getTestimonialFormData/${spaceId}`)
+
+        return res.data.testimonialQuestionData
+    } catch (error) {
+        throw new Error(`error while calling testimonial form question ${error}`)
+    }
+}

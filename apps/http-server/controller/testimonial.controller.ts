@@ -3,6 +3,7 @@ import { testimonialObject, testimonialQuestionsObject } from "common-config/typ
 import type { Request, Response } from "express";
 import { multerUpload } from "../middleware/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
+import crypto from "crypto"
 
 export const creteTestimonialForm = async (req : Request, res : Response) => {
     const parsedObject = testimonialQuestionsObject.safeParse(req.body)
@@ -14,6 +15,8 @@ export const creteTestimonialForm = async (req : Request, res : Response) => {
         return
     }
 
+
+    const uniqueLink = crypto.randomUUID()
     const {spaceId, formTitle, formDescripton, questionOne, questionThree, questionTwo} = parsedObject.data
     try {
         const testimonialQuestionsdata = await prisma.testimonialFormQuestions.create({
@@ -23,7 +26,8 @@ export const creteTestimonialForm = async (req : Request, res : Response) => {
                 questionTwo : questionTwo,
                 questionThree : questionThree,
                 formTitle : formTitle,
-                formDescripton : formDescripton
+                formDescripton : formDescripton,
+                uniqueLink : uniqueLink
             }
         })
 
@@ -264,3 +268,33 @@ export const deleteTestimonial = async (req : Request, res : Response) => {
     }
 }
 
+
+
+
+export const getTestimonialFormData = async (req : Request, res : Response) =>{
+    const {spaceId} = req.params
+
+    if(!spaceId){
+        res.status(403).json({
+            msg : "No space id given"
+        })
+        return
+    }
+    try {
+        const testimonialQuestionData = await prisma.testimonialFormQuestions.findMany({
+            where : {
+                spaceId : Number(spaceId)
+            }
+        }) 
+        
+
+        res.status(200).json({
+            msg : "Testimonail question fetched successfully", 
+            testimonialQuestionData
+        })
+        
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error at getting testimonial form data ${error.message}`})
+        : res.status(500).json({msg : `error at testimonial data fetched !! `})
+    }
+} 
