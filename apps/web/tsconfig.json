@@ -13,6 +13,6 @@
     "next-env.d.ts",
     "next.config.ts",
     ".next/types/**/*.ts"
-  ],
+, "app/previewform"  ],
   "exclude": ["node_modules"]
 }

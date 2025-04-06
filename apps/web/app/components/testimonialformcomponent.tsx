@@ -1,5 +1,5 @@
 "use client"
-import { useRef } from "react"
+import {  useRef, useState } from "react"
 import Button from "@repo/ui/button";
 import DashboardCard from "@repo/ui/dashbaordcard";
 import InputBox from "@repo/ui/inputbox";
@@ -7,11 +7,15 @@ import TextAreaComponent from "@repo/ui/textarea"
 import { Settings } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation";
 import { createFormcall } from "../../utils/api";
+import { ArrowLeft } from "lucide-react"
+
 
 export default function TestimonailFormComponent(){
     const searchParams = useSearchParams()
     const spaceId = searchParams.get("spaceId")
     const router = useRouter()
+    const [formcreating, setformcreating] = useState(false)
+    const [createdForm, setCreatedForm] = useState(false)
 
     const formTitleRef  = useRef<HTMLInputElement | null>(null)
     const formDescriptionRef = useRef<HTMLTextAreaElement  | null>(null)
@@ -21,34 +25,59 @@ export default function TestimonailFormComponent(){
     const logoUrlRef = useRef<HTMLInputElement | null>(null)
 
     const createForm = async () => {
+        setformcreating(true)
         try {
-            const res = await createFormcall({
-                spaceId : Number(spaceId) || 12,
-                questionOne : questionOneRef.current?.value || "",
-                questionTwo: questionTwoRef.current?.value || "",
-                questionThree: questionThreeRef.current?.value || "",
-                formDescripton: formDescriptionRef.current?.value || "",
-                formTitle : formTitleRef.current?.value || ""
+            if(!questionOneRef.current?.value || !questionThreeRef.current?.value || !questionTwoRef.current?.value || !formDescriptionRef.current?.value || !formTitleRef.current?.value){
+                alert("empty fields")
+                return
+            }
+
+            await createFormcall({
+                spaceId : Number(spaceId) ,
+                questionOne : questionOneRef.current?.value ,
+                questionTwo: questionTwoRef.current?.value ,
+                questionThree: questionThreeRef.current?.value ,
+                formDescripton: formDescriptionRef.current?.value ,
+                formTitle : formTitleRef.current?.value 
             })
 
-            console.log(res);
-            
+            // console.log(res);
+            setCreatedForm(true)
+            // router.push(`/spaces/${spaceId}`)
         } catch (error) {
             console.error(error)
-        }finally{
-            router.push(`/spaces/${spaceId}`)
+        } finally{
+            setformcreating(false)
         }
+    }
+
+
+    if(createdForm){
+        return <div className="flex justify-center items-center text-center min-h-screen">
+            <div className="bg-gradient-to-br md:w-[380px] w-[270px] space-y-4 from-blue-400 px-3 py-4 rounded-md  via-slate-100  to-slate-300">
+                <h1 className="text-xl font-semibold">Testimonial form created Successfully !! </h1>
+                    <video autoPlay loop muted playsInline className="rounded-md w-full h-auto">
+                        <source src="/successvideo.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                    </video>
+                <Button title="Back to dashboard" variants="primary" onclick={() => router.back()}/>
+            </div>
+        </div>
     }
 
     return (
         <div className="bg-slate-100 md:px-20  min-h-screen space-y-10 pb-10">
-            <div className="flex flex-row bg-white borer-[2px] border-slate-300 shadow-sm shadow-slate-200  py-5 md:-mx-20 md:px-20 px-4 justify-between items-center">  
-                <h1 className="font-semibold text-lg">Customize Testimonial Form</h1>
+            <div className="flex flex-row bg-white borer-[2px] border-slate-300 md:gap-0 gap-3 shadow-sm shadow-slate-200  py-5 md:-mx-20 md:px-20 px-4 justify-between items-center">  
+                <div>
+                    <Button icon={<ArrowLeft className="md:size-5 size-5" />} variants="default" onclick={() => router.back()}/>
+                </div>
+                    <h1 className="font-semibold md:text-lg text-sm">Customize Testimonial Form</h1>
                 <div className="">
-                    <Button title="Preview" variants="primary" onclick={() => alert(formTitleRef.current?.value)}/>
+                    <Button title="Preview" variants="primary" onclick={() => router.push(`/spaces/${spaceId}`)}/>
                     {/* <Button title="Save Form" variants="default" onclick={() => alert("Ad")}/> */}
                 </div>
             </div>
+            
             <div className="flex md:flex-row md:px-0 px-2 flex-col justify-between ">
                 <DashboardCard>
                     <div className="text-start space-y-10 md:w-[850px] p-5">
@@ -106,7 +135,7 @@ export default function TestimonailFormComponent(){
                                 <InputBox ref={logoUrlRef} placeholder="https://logo.png" type="text" label="Place your logo URL*" />
 
                             </div>
-                            <Button title="Create Form" variants="primary" onclick={createForm}/>
+                            <Button title="Create Form" processing={formcreating} processingText="creating form...." variants="primary" onclick={createForm}/>
                         </div>
                         
                     </DashboardCard>
