@@ -4,12 +4,13 @@ import { NotebookPen, Copy, Check, Trash2  } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getTestimonialFormDataCall } from "../../../utils/api";
 import { TestimonialQuestionsInterface } from "../../../utils/types";
+import { useRouter } from "next/navigation";
 
 export default function CollectionComponent({spaceId} : {spaceId : number | undefined}) {
     const [copied, setCopied] = useState(10)
     const [testimonialQuestions, setTestimonialQuestions] = useState<TestimonialQuestionsInterface[]>([])
     const testimonialLink = "http://localhost:3000/collect/"
-    // const router = useRouter()
+    const router = useRouter()
 
     useEffect(() => {
       const getTestimonialFormData = async () => {
@@ -39,11 +40,12 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
                           {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
+                          {/* here change commenting it  */}
                           <div>
-                          <a href={`/testimonialform?spaceId=${spaceId}`}  target="_blank" rel="noopener noreferrer">
-                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" />
+                          {/* <a href={`/testimonialform?spaceId=${spaceId}`}  target="_blank" rel="noopener noreferrer"> */}
+                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)} />
 
-                          </a>
+                          {/* </a> */}
                           </div>
 
                     </div>
@@ -54,11 +56,13 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
                           {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
-                          <div>
-                          <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer" >
-                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary"/>
+                          {/* here change commenting it  */}
 
-                          </a>
+                          <div>
+                          {/* <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer" > */}
+                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)}/>
+
+                          {/* </a> */}
                           </div>
 
                     </div>
@@ -73,10 +77,12 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                                 <h1 className="font-semibold">{t.formTitle}</h1>
                                 <div className="flex flex-row gap-2">
                                     {/* <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
-                                    <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer">
-                                        <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default"/>
+                          {/* here change commenting it  */}
 
-                                    </a>
+                                    {/* <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer"> */}
+                                        <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)}/>
+
+                                    {/* </a> */}
                                     <Button icon={<Trash2 size={16}/>} variants="default" />
                                 </div>
                             </div>
