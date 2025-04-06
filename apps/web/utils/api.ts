@@ -1,5 +1,6 @@
 import axios  from "axios";
 
+
 export const baseUrl = process.env.BASE_URL || "http://localhost:4000/api/v1"
 
 const api = axios.create({
@@ -106,8 +107,22 @@ export const getTestimonialFormDataCall = async({spaceId} : {spaceId : number}) 
     try {
         const res = await api.get(`/testimonial/getTestimonialFormData/${spaceId}`)
 
+        
         return res.data.testimonialQuestionData
     } catch (error) {
         throw new Error(`error while calling testimonial form question ${error}`)
+    }
+}
+
+
+export const getClientSideQuestionsCall = async ({uniqueLink} : {uniqueLink : string}) => {
+    try {
+        const res = await api.get(`/testimonial/customerTestimonialQuestions/${uniqueLink}`)
+
+        
+        return res.data.testimonialQuestions
+    } catch (error) {
+        throw new Error(`error while calling testimonial form question ${error}`)
+        
     }
 }

@@ -1,7 +1,6 @@
 import Button from "@repo/ui/button";
 import DashboardCard from "@repo/ui/dashbaordcard";
 import { NotebookPen, Copy, Check, Trash2  } from "lucide-react"
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react"
 import { getTestimonialFormDataCall } from "../../../utils/api";
 import { TestimonialQuestionsInterface } from "../../../utils/types";
@@ -9,7 +8,7 @@ import { TestimonialQuestionsInterface } from "../../../utils/types";
 export default function CollectionComponent({spaceId} : {spaceId : number | undefined}) {
     const [copied, setCopied] = useState(10)
     const [testimonialQuestions, setTestimonialQuestions] = useState<TestimonialQuestionsInterface[]>([])
-    const testimonialLink = "https://customerch.app/t/customer-testimonials"
+    const testimonialLink = "http://localhost:3000/collect/"
     // const router = useRouter()
 
     useEffect(() => {
@@ -20,6 +19,8 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
 
             // console.log(res);
             setTestimonialQuestions(res)
+            console.log(res);   
+            
             
         } catch (error) {
             console.error("error at frontend ", error)
@@ -51,11 +52,11 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                     </div>
                 </DashboardCard>
             </div>
-            <div className="grid md:grid-cols-2 gap-10">
+            <div className="">
             {testimonialQuestions.map((t, k) => (
                 <div key={k}>
                     <DashboardCard> 
-                        <div className="space-y-5 text-center md:w-[460px]">
+                        <div className="space-y-5 text-center md:w-[600px]">
                             <div className="flex md:flex-row flex-col md:gap-0 gap-4 justify-between items-center">
                                 <h1 className="font-semibold">{t.formTitle}</h1>
                                 <div className="flex flex-row gap-2">
@@ -66,11 +67,11 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                             <p className="text-sm text-slate-600">{t.formDescripton}</p>
                             <div className="flex md:flex-row flex-col md:gap-4 gap-4">
                                 <div className="border-[1px] text-sm border-slate-300 w-full bg-slate-100 py-1 rounded-md md:px-3   ">
-                                    {testimonialLink}
+                                    {testimonialLink}{t.uniqueLink}
                                 </div>
                                 <div>
                                     <Button icon={copied === k ? <Check size={16}/> : <Copy size={16}/>} variants="default" onclick={() => {
-                                        navigator.clipboard.writeText(testimonialLink)
+                                        navigator.clipboard.writeText(`${testimonialLink}${t.uniqueLink}`)
                                         setCopied(k)
 
                                         setTimeout(() => {

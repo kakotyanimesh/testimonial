@@ -298,3 +298,30 @@ export const getTestimonialFormData = async (req : Request, res : Response) =>{
         : res.status(500).json({msg : `error at testimonial data fetched !! `})
     }
 } 
+
+
+export const customerTestimonialQuestions = async (req :Request, res :Response) => {
+    const {uniqueLink} = req.params
+
+    if(!uniqueLink){
+        res.status(403).json({
+            msg : "No unique Id Provided "
+        })
+        return
+    }
+    try {
+        const testimonialQuestions = await prisma.testimonialFormQuestions.findUnique({
+            where : {
+                uniqueLink : uniqueLink
+            }
+        })
+
+        res.status(200).json({
+            msg : "Client side question fetched successfull", 
+            testimonialQuestions
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error at getting testimonial form questions ${error.message}`})
+        : res.status(500).json({msg : `error at testimonial data fetched !! `})
+    }
+}

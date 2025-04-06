@@ -5,5 +5,6 @@ export interface TestimonialQuestionsInterface {
     questionOne : string,
     questionThree : string,
     questionTwo : string,
-    spaceId : number
+    spaceId : number,
+    uniqueLink : string
 }

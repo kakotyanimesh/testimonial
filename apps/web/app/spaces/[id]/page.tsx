@@ -45,7 +45,7 @@ export default function  IndividualPage({params} : {
                 {/* navbar*/}
                 <h1 className="font-semibold">Testimonial Review Page </h1>
                 <div className="flex flex-row justify-between md:gap-10 gap-2">
-                    <Button title="Copy display link" variants="primary" onclick={() => console.log(spacedata)}/>
+                    <Button title="Log Out" variants="primary" onclick={() => console.log(spacedata)}/>
                     {/* <Button title="settings" variants="default" onclick={() => alert("Adads")}/> */}
                 </div>
             </div>
