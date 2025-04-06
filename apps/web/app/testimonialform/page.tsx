@@ -1,5 +1,5 @@
 "use client"
-import { useRef } from "react"
+import { Suspense, useRef } from "react"
 import Button from "@repo/ui/button";
 import DashboardCard from "@repo/ui/dashbaordcard";
 import InputBox from "@repo/ui/inputbox";
@@ -24,7 +24,7 @@ export default function TestimonailForm(){
             const res = await createFormcall({
                 spaceId : Number(spaceId) || 12,
                 questionOne : questionOneRef.current?.value || "",
-                questionTwo: questionOneRef.current?.value || "",
+                questionTwo: questionTwoRef.current?.value || "",
                 questionThree: questionThreeRef.current?.value || "",
                 formDescripton: formDescriptionRef.current?.value || "",
                 formTitle : formTitleRef.current?.value || ""
@@ -38,7 +38,8 @@ export default function TestimonailForm(){
     }
 
     return (
-        <div className="bg-slate-100 md:px-20  min-h-screen space-y-10 pb-10">
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="bg-slate-100 md:px-20  min-h-screen space-y-10 pb-10">
             <div className="flex flex-row bg-white borer-[2px] border-slate-300 shadow-sm shadow-slate-200  py-5 md:-mx-20 md:px-20 px-4 justify-between items-center">  
                 <h1 className="font-semibold text-lg">Customize Testimonial Form</h1>
                 <div className="">
@@ -112,6 +113,7 @@ export default function TestimonailForm(){
             </div>
 
         </div>
+        </Suspense>
     )
     
 }
