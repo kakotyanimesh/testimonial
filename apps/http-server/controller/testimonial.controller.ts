@@ -73,7 +73,7 @@ export const submitTestimonial = async (req : Request, res : Response) => {
         const parsedObject = testimonialObject.safeParse(req.body)
 
         if(!parsedObject.success){
-            const fileToDelete = [userVidoUrl, userVidoUrl].filter(file => file)
+            const fileToDelete = [userImage, userVidoUrl].filter(file => file)
 
             for (const file of fileToDelete) {
                 await cloudinary.uploader.destroy(file as string)

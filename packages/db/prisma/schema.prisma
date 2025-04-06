@@ -43,7 +43,7 @@ model TestimonialInformation {
   spaceId             Int
   space               Spaces    @relation(fields: [spaceId], references: [id])
   customername        String
-  review              String
+  review              String?
   customeremail       String
   videoUrl            String?
   customerimage       String?

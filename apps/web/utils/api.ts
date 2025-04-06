@@ -126,3 +126,19 @@ export const getClientSideQuestionsCall = async ({uniqueLink} : {uniqueLink : st
         
     }
 }
+
+
+export const submitTestimonialCall = async (formData : FormData) => {
+    try {
+        const res = await api.post(`/testimonial/submitTestimonial`, formData, {
+            headers : {
+                'Content-Type' : 'multipart/form-data'
+            }
+        })
+
+        return res.data
+    } catch (error) {
+        throw new Error(`error while uploading testimonial ${error}`)
+        
+    }
+}
