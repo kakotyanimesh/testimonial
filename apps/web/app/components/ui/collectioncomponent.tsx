@@ -38,7 +38,13 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                         <h1 className="font-semibold">Form Customization</h1>
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
-                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
+                          {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
+                          <div>
+                          <a href={`/testimonialform?spaceId=${spaceId}`}  target="_blank" rel="noopener noreferrer">
+                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" />
+
+                          </a>
+                          </div>
 
                     </div>
                 </DashboardCard>
@@ -47,7 +53,13 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                         <h1 className="font-semibold">Form Customization</h1>
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
-                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
+                          {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
+                          <div>
+                          <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer" >
+                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary"/>
+
+                          </a>
+                          </div>
 
                     </div>
                 </DashboardCard>
@@ -60,8 +72,12 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                             <div className="flex md:flex-row flex-col md:gap-0 gap-4 justify-between items-center">
                                 <h1 className="font-semibold">{t.formTitle}</h1>
                                 <div className="flex flex-row gap-2">
-                                    <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
-                                    <Button icon={<Trash2 size={16}/>} variants="default" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/>
+                                    {/* <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
+                                    <a href={`/testimonialform?spaceId=${spaceId}`} target="_blank" rel="noopener noreferrer">
+                                        <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default"/>
+
+                                    </a>
+                                    <Button icon={<Trash2 size={16}/>} variants="default" />
                                 </div>
                             </div>
                             <p className="text-sm text-slate-600">{t.formDescripton}</p>

@@ -4,7 +4,7 @@ interface ButtonTypes {
     title ?: string
     style ?:string
     variants : "primary" | "default"
-    onclick : () => void
+    onclick ?: () => void
     icon ? : ReactNode,
     processing ?: boolean,
     processingText ? : string
