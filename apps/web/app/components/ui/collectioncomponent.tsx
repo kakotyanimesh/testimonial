@@ -2,7 +2,7 @@ import Button from "@repo/ui/button";
 import DashboardCard from "@repo/ui/dashbaordcard";
 import { NotebookPen, Copy, Check, Trash2  } from "lucide-react"
 import { useState, useEffect } from "react"
-import { getTestimonialFormDataCall } from "../../../utils/api";
+import { deleteTestimonialFormCall, getTestimonialFormDataCall } from "../../../utils/api";
 import { TestimonialQuestionsInterface } from "../../../utils/types";
 import { useRouter } from "next/navigation";
 
@@ -12,8 +12,7 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
     const testimonialLink = "http://localhost:3000/collect/"
     const router = useRouter()
 
-    useEffect(() => {
-      const getTestimonialFormData = async () => {
+    const getTestimonialFormData = async () => {
         try {
             const spaceIdNumber = Number(spaceId)
             const res = await getTestimonialFormDataCall({spaceId : spaceIdNumber})
@@ -27,9 +26,12 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
             console.error("error at frontend ", error)
         }
       }
-    
+
+    useEffect(() => {
       getTestimonialFormData()
     }, [])
+
+    
     
     return (
         <div className="flex flex-col gap-10 justify-center items-center mx-5">
@@ -43,7 +45,7 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                           {/* here change commenting it  */}
                           <div>
                           {/* <a href={`/testimonialform?spaceId=${spaceId}`}  target="_blank" rel="noopener noreferrer"> */}
-                          <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)} />
+                            <Button title="customize your form" processingText="...." icon={<NotebookPen />}  variants="primary" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)} />
 
                           {/* </a> */}
                           </div>
@@ -83,7 +85,10 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                                         <Button icon={<NotebookPen size={16}/>} title="customize form" variants="default" onclick={() => router.push(`/testimonialform?spaceId=${spaceId}`)}/>
 
                                     {/* </a> */}
-                                    <Button icon={<Trash2 size={16}/>} variants="default" />
+                                    <Button icon={<Trash2 size={16}/>} variants="default" onclick={async() => {
+                                        await deleteTestimonialFormCall(t.uniqueLink)
+                                        getTestimonialFormData()
+                                    }} />
                                 </div>
                             </div>
                             <p className="text-sm text-slate-600">{t.formDescripton}</p>

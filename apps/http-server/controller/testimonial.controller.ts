@@ -7,6 +7,14 @@ import crypto from "crypto"
 
 export const creteTestimonialForm = async (req : Request, res : Response) => {
     const parsedObject = testimonialQuestionsObject.safeParse(req.body)
+    const adminId = req.adminId
+
+    if(!adminId){
+        res.status(200).json({
+            msg : "No admin id "
+        })
+        return
+    }
 
     if(!parsedObject.success){
         res.status(400).json({
@@ -27,7 +35,8 @@ export const creteTestimonialForm = async (req : Request, res : Response) => {
                 questionThree : questionThree,
                 formTitle : formTitle,
                 formDescripton : formDescripton,
-                uniqueLink : uniqueLink
+                uniqueLink : uniqueLink,
+                adminId : adminId
             }
         })
 
@@ -323,5 +332,36 @@ export const customerTestimonialQuestions = async (req :Request, res :Response) 
     } catch (error) {
         error instanceof Error ? res.status(500).json({msg : `Error at getting testimonial form questions ${error.message}`})
         : res.status(500).json({msg : `error at testimonial data fetched !! `})
+    }
+}
+
+export const deleteTestimonialForm = async (req : Request, res :Response) => {
+    const adminId = req.adminId
+
+    const {uniqueLink} = req.params
+
+    if(!adminId || !uniqueLink){
+        res.status(403).json({
+            msg : 'No admin Id or unique link provided Unauthorized req'
+        })
+        return
+    }
+    try {
+        await prisma.testimonialFormQuestions.delete({
+            where : {
+                uniqueLink : uniqueLink,
+                adminId : adminId
+            }
+        })
+
+        // if()
+
+        res.status(200).json({
+            msg : "Deleted successfully ",
+            
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error while deleting testimonial form questions ${error.message}`})
+        : res.status(500).json({msg : `Error while deleting testimonial form question!! `})
     }
 }

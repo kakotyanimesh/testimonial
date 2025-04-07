@@ -60,7 +60,7 @@ export default function  IndividualPage({params} : {
             </div>
             {/* we are going to render this on the basic of spacebar thingy  */}
             {
-                spacebarNumber === 0 ? <OverviewComponent onAction={() => setSpacebarNumber(2)}/> : <CollectionComponent spaceId={spacedata?.id}/>
+                spacebarNumber === 0 ? <OverviewComponent onAction={() => setSpacebarNumber(2)} spaceId={id}/> : <CollectionComponent spaceId={spacedata?.id}/>
             }
             
         </div>

@@ -3,7 +3,7 @@ import Button from "@repo/ui/button";
 import InputBox from "@repo/ui/inputbox";
 import { useState, useRef, useEffect } from "react"
 import { Rocket } from "lucide-react"
-import { createSpacecall, getSpacecall } from "../../utils/api";
+import { apikeycall, createSpacecall, getSpacecall } from "../../utils/api";
 import SpaceCard from "../components/ui/spacecardnext";
 
 
@@ -41,6 +41,8 @@ export default function Space(){
             // console.log(`all space data ${data}`);
             setAllspacedata(data.spaces)
             // console.log(allspacedata);
+
+            // await apikeycall()
             
             setSpaceloading(false)
             

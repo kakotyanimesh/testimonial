@@ -1,6 +1,6 @@
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
-import { signinObject, signupobject } from "common-config/types";
+import { signinObject, signupobject, spaceObject } from "common-config/types";
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken"
 
@@ -101,5 +101,72 @@ export const signin = async (req : Request, res : Response) => {
         res.status(500).json({
             msg : `something went wrong while singin ${JSON.stringify(error)}`
         })
+    }
+}
+
+
+export const generateAPIkey = async(req : Request, res : Response) => {
+    const adminId = req.adminId
+
+    const {spaceId} = req.params
+
+    if(!adminId || !spaceId){
+        res.status(403).json({
+            msg : "No userId or adminId provided "
+        })
+        return
+    }
+    try {
+        const generatedAPIkey = await jwt.sign({userId : adminId, purpose : "APIKYE"}, process.env.APIKEY as string)
+
+        const saveInDB = await prisma.apiKey.create({
+            data : {
+                key : generatedAPIkey,
+                spaceId : Number(spaceId),
+                userId : adminId
+            }
+        })
+
+        res.status(200).json({
+            msg : "API key generated successfully",
+            saveInDB
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error while api key generation ${JSON.stringify(error.message)}`})
+        : res.status(500).json({msg : "Error while api key generation"})
+    }
+}
+
+export const getAPIKey = async (req : Request, res : Response) => {
+    const { spaceId } = req.params
+
+    const adminId = req.adminId
+
+    if(!spaceId || !adminId){
+        res.status(403).json({
+            msg : `no spaceId or ADMIN Id provided`
+        })
+        return
+    }
+    try {
+        const apikey = await prisma.apiKey.findUnique({
+            where : {
+                // the combination is important as we made them @unique with prisma 
+                spaceId_userId : {
+                    spaceId : Number(spaceId),
+                    userId : adminId
+                }
+            }, select : {
+                key : true
+            }
+        })
+
+        res.status(200).json({
+            msg: "Fetched api key successfully",
+            apikey
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error while fetching api key ${JSON.stringify(error.message)}`})
+        : res.status(500).json({msg : `Error while fetching api key`})
     }
 }

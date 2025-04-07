@@ -7,7 +7,7 @@ import TextAreaComponent from "@repo/ui/textarea"
 import { Settings } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation";
 import { createFormcall } from "../../utils/api";
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Check, Copy } from "lucide-react"
 
 
 export default function TestimonailFormComponent(){
@@ -16,6 +16,7 @@ export default function TestimonailFormComponent(){
     const router = useRouter()
     const [formcreating, setformcreating] = useState(false)
     const [createdForm, setCreatedForm] = useState(false)
+    const [formLink, setFormLink] = useState("")
 
     const formTitleRef  = useRef<HTMLInputElement | null>(null)
     const formDescriptionRef = useRef<HTMLTextAreaElement  | null>(null)
@@ -23,6 +24,9 @@ export default function TestimonailFormComponent(){
     const questionTwoRef = useRef<HTMLInputElement | null>(null)
     const questionThreeRef = useRef<HTMLInputElement | null>(null)
     const logoUrlRef = useRef<HTMLInputElement | null>(null)
+    const [copied, setCopie] = useState(false)
+
+
 
     const createForm = async () => {
         setformcreating(true)
@@ -32,7 +36,7 @@ export default function TestimonailFormComponent(){
                 return
             }
 
-            await createFormcall({
+            const res = await createFormcall({
                 spaceId : Number(spaceId) ,
                 questionOne : questionOneRef.current?.value ,
                 questionTwo: questionTwoRef.current?.value ,
@@ -41,8 +45,9 @@ export default function TestimonailFormComponent(){
                 formTitle : formTitleRef.current?.value 
             })
 
-            // console.log(res);
+            console.log(res);
             setCreatedForm(true)
+            setFormLink(res.questions.uniqueLink)
             // router.push(`/spaces/${spaceId}`)
         } catch (error) {
             console.error(error)
@@ -61,6 +66,20 @@ export default function TestimonailFormComponent(){
                             Your browser does not support the video tag.
                     </video>
                 <Button title="Back to dashboard" variants="primary" onclick={() => router.back()}/>
+                <div className="flex gap-3">
+                    <div className="border-[1px] text-sm border-slate-300 w-full bg-slate-100 py-1 rounded-md md:px-3   ">
+                        {`http://localhost:3000/collect/`}{formLink}
+                    </div>
+                    <Button icon={copied ?  <Check size={16}/> : <Copy size={16}/>} variants="primary" onclick={() => {
+                        navigator.clipboard.writeText(`http://localhost:3000/collect/${formLink}`)
+
+                        setCopie(true)
+
+                        setTimeout(() => {
+                            setCopie(false)
+                        }, 3000);
+                    }} />
+                </div>
             </div>
         </div>
     }
@@ -109,15 +128,7 @@ export default function TestimonailFormComponent(){
                                 <InputBox ref={questionThreeRef} type="text" label="Question 3" placeholder="Write your third question here ..." />
                                 
                             </div>
-                            {/* <div className="space-y-5 border-b-[1px] border-slate-400 pb-10">
-                                <h1 className="font-semibold">More survey question </h1>
-                                <div>
-                                    <Button title="add additional Question" variants="default" onclick={() => }/>
-                                </div>
-                                
-                                
                             
-                            </div> */}
                         </div>
 
                     </div>

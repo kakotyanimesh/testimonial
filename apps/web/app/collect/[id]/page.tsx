@@ -6,6 +6,7 @@ import InputBox from "@repo/ui/inputbox"
 import TextAreaComponent from "@repo/ui/textarea"
 import Button from "@repo/ui/button"
 import QuestionsDiv from "../../components/ui/questionDiv"
+import { Star } from "lucide-react"
 
 export default function CollectTestimonail({params} : {params : Promise<{id : string}>}){
     const resolvedParams = use(params)
@@ -15,6 +16,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     const [submitting, setSubmitting] = useState(false)
     const [formSubmitted, setformSubmitted] = useState(false)
     const [uploadedfilename, setUploadedfilename] = useState<string | null>("")
+    const [totalStars, settotalStars] = useState(4)
 
     // refs 
     const videoRef = useRef<HTMLInputElement>(null)
@@ -63,7 +65,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
             formdata.append("customeremail", emailRef.current?.value || "")
             formdata.append("customerCompany", companyRef.current?.value || "") 
             formdata.append("spaceId", questionData?.spaceId.toString() || "")
-            formdata.append("stars", "5")
+            formdata.append("stars", (totalStars + 1).toString())
 
             if(spacebarNumber === 0){
                 const file = videoRef.current?.files?.[0]
@@ -75,9 +77,9 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
                 formdata.append("review", reviewRef.current?.value || "")
             }
 
-            const res = await submitTestimonialCall(formdata)
-            alert("testimonial uploaded")
-            console.log(res);
+            await submitTestimonialCall(formdata)
+            // alert("testimonial uploaded")
+            // console.log(res);
             
             setformSubmitted(true)
             
@@ -90,9 +92,18 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     }
 
     if(formSubmitted){
-        return <div>
-            form submitted bye bye 
-        </div>
+        return <div className="flex justify-center items-center text-center min-h-screen">
+                    <div className="bg-gradient-to-br md:w-[380px] w-[270px] space-y-4 from-blue-400 px-3 py-4 rounded-md  via-slate-100  to-slate-300">
+                        <h1 className="text-sm font-semibold">Thank you for the submission </h1>
+                            <video autoPlay loop muted playsInline className="rounded-md w-full h-auto">
+                                <source src="/thankyou.mp4" type="video/mp4" />
+                                    Your browser does not support the video tag.
+                            </video>
+                        <h1 className="text-sm font-semibold">We Love You </h1>
+
+                        {/* <Button title="Back to dashboard" variants="primary" onclick={() => router.back()}/> */}
+                    </div>
+                </div>
     }
     return (
         <div className="flex justify-center bg-slate-200 items-center text-center min-h-screen py-10 md:px-0 px-4 ">
@@ -115,6 +126,18 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
                     <div className="grid grid-cols-2 gap-10">
                         <InputBox ref={companyRef} placeholder="Your company name" type="text" label="Company name"/>
                         <InputBox ref={jobTitleRef} placeholder="Your role" type="text" label="Job Title"/>
+                    </div>
+                </div>
+                <div className="text-start space-y-2 w-full ">
+                    <h1 className="font-semibold text-sm">Rating </h1>
+                    <div className="space-x-2">
+                        {
+                            Array.from({length : 5}).map((_, k) => (
+                                <button key={k} className={`p-2 rounded-md text-blue-600 border-[1px] border-blue-600 ${totalStars >= k ? "bg-blue-200 " : undefined}`} onClick={() => settotalStars(k)}>
+                                    <Star size={20} className={`${totalStars >=  k ? "fill-blue-600" : undefined}`}/>
+                                </button>
+                            ))
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col space-y-2 text-start w-full bg-slate-200 p-2 rounded-md">
@@ -142,6 +165,8 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
                     )
                 }
                 <Button title="Submit Testimonial" processing={submitting} processingText="submitting testimonial" variants="primary" onclick={submitTestimonial}/>
+                <p className="md:text-sm text-[14px] text-slate-600">Powered by <a href="https://testimonial.kakoty.tech/" className="text-blue-700 underline" target="_blanck">testimonial.kakoty.tech</a></p>
+                
             </div>
         </div>
     )

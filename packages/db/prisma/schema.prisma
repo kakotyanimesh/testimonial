@@ -15,12 +15,14 @@ datasource db {
 
 
 model User {
-  id                    String      @default(uuid())      @id
-  email                 String      @unique
-  username              String      @unique
-  password              String
-  spaces                Spaces[]
-  testimonials          TestimonialInformation[]
+  id                       String      @default(uuid())      @id
+  email                    String      @unique
+  username                 String      @unique
+  password                 String
+  spaces                   Spaces[]
+  testimonials             TestimonialInformation[]
+  TestimonialFormQuestions TestimonialFormQuestions[]
+  APIKEY                   ApiKey[]
 
 }
 
@@ -32,6 +34,7 @@ model Spaces {
   admin                  User                        @relation(fields: [adminId], references: [id])
   testimonials           TestimonialInformation[]
   testimonailsQuestions  TestimonialFormQuestions[]
+  apiKey                  ApiKey[]
 }       
 
 
@@ -65,4 +68,20 @@ model TestimonialFormQuestions {
   space              Spaces       @relation(fields: [spaceId], references: [id])
   spaceId            Int
   uniqueLink         String       @unique
+  adminId            String
+  admin              User         @relation(fields: [adminId], references: [id])
+}
+
+
+model ApiKey {
+  id          String   @default(uuid()) @id
+  key         String   @unique
+  userId      String
+  User        User     @relation(fields: [userId], references: [id])
+  spaceId     Int      
+  spaces      Spaces   @relation(fields: [spaceId], references: [id])
+  createdAt   DateTime @default(now())
+  revoked     Boolean  @default(false)
+
+  @@unique([spaceId, userId])
 }

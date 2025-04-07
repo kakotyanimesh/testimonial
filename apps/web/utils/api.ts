@@ -142,3 +142,42 @@ export const submitTestimonialCall = async (formData : FormData) => {
         
     }
 }
+
+
+export const deleteTestimonialFormCall = async (uniqueLink : string)=> {
+    try {
+        const res = await api.delete(`/testimonial/deleteTestimonialFrom/${uniqueLink}`)
+
+        // console.log(res);
+        
+        return res.data
+    } catch (error) {
+        throw new Error(`error while deleteting testimonial ${error}`)
+        
+    }
+}
+
+
+export const apikeycall = async (spaceId : number) => {
+    try {
+        const res = await api.post(`/user/generateApikey/${spaceId}`)
+
+
+        return res.data.saveInDB.key
+
+    } catch (error) {
+        throw new Error(`"error at generating api key ${error}`)
+    }
+} 
+
+
+export const getAPIcall = async (spaceId : number) => {
+    try {
+        const res = await api.get(`/user/getApikey/${spaceId}`)
+        // console.log(res.data);
+        
+        return res.data.apikey.key
+    } catch (error) {
+        throw new Error(`error at getting api key ` , {cause : error})
+    }
+}
