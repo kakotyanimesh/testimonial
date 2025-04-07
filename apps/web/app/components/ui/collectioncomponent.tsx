@@ -38,7 +38,7 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
             <div className="grid md:grid-cols-2 gap-10">
                 <DashboardCard>
                     <div className="space-y-5 text-center">
-                        <h1 className="font-semibold">Form Customization</h1>
+                        <h1 className="font-semibold">Create Testimonial Form </h1>
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
                           {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
@@ -54,7 +54,7 @@ export default function CollectionComponent({spaceId} : {spaceId : number | unde
                 </DashboardCard>
                 <DashboardCard>
                     <div className="space-y-5 text-center">
-                        <h1 className="font-semibold">Form Customization</h1>
+                        <h1 className="font-semibold">Create Testimonial Form </h1>
                         <p className="text-sm text-slate-600">Create a beautiful, branded testimonial collection form for your customers.</p>
 
                           {/* <Button title="customize your form" icon={<NotebookPen />}  variants="primary" onclick={() => window.open(`/testimonialform?spaceId=${spaceId}`, "_blank")}/> */}
