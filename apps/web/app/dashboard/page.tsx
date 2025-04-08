@@ -2,9 +2,10 @@
 import Button from "@repo/ui/button";
 import InputBox from "@repo/ui/inputbox";
 import { useState, useRef, useEffect } from "react"
-import { Rocket } from "lucide-react"
+import { Rocket, ArrowLeft } from "lucide-react"
 import { apikeycall, createSpacecall, getSpacecall } from "../../utils/api";
 import SpaceCard from "../components/ui/spacecardnext";
+import { useRouter } from "next/navigation";
 
 
 export default function Space(){
@@ -13,6 +14,7 @@ export default function Space(){
     const nameref = useRef<HTMLInputElement | null>(null)
     const displaynameref = useRef<HTMLInputElement | null>(null)
     const [allspacedata, setAllspacedata] = useState<{name : string, displayName : string, id : string}[]>([])
+    const router = useRouter()
 
     useEffect(() => {
       const fetchedData = async () => {
@@ -31,18 +33,25 @@ export default function Space(){
       
     }, [])
     
+    
 
     const createSpace = async () => {
         try {
             setSpaceloading(true)
-            await createSpacecall({name : nameref.current?.value || "", displayName : displaynameref.current?.value || ""})
-            // console.log(res);
+            const createdSpace = await createSpacecall({name : nameref.current?.value || "", displayName : displaynameref.current?.value || ""})
+            // console.log(createdSpace.space.id);
             const data = await getSpacecall()
             // console.log(`all space data ${data}`);
             setAllspacedata(data.spaces)
+            // console.log(data.spaces);
+            
             // console.log(allspacedata);
 
-            // await apikeycall()
+            const api = await apikeycall(Number(createdSpace.space.id))
+
+            // // await apikeycall()
+            // console.log(api);
+            
             
             setSpaceloading(false)
             
@@ -68,7 +77,15 @@ export default function Space(){
         <div className=" bg-slate-50 min-h-screen space-y-10">
             {/* navbar */}
             <div className="flex flex-row justify-between items-center md:px-40 px-4 py-4 bg-white border-b-[1px] border-slate-200">
-                <h1 className="text-xl font-bold cursor-pointer">ProofCloud</h1>
+                <div className="flex  items-center gap-5 justify-between">
+                    <div>
+                        <Button icon={<ArrowLeft className="md:size-5 size-5" />} variants="default" onclick={() => router.back()}/>
+
+                    </div>
+                    <h1 className="text-xl font-bold cursor-pointer">ProofCloud</h1>
+
+
+                </div>
                 <div>
                     <Button style="" title="log out" variants="default" onclick={() => alert("Asdasd")}/>
                 </div>

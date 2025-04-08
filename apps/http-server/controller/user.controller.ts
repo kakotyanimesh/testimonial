@@ -124,6 +124,8 @@ export const generateAPIkey = async(req : Request, res : Response) => {
                 key : generatedAPIkey,
                 spaceId : Number(spaceId),
                 userId : adminId
+            }, select : {
+                key : true
             }
         })
 
