@@ -6,6 +6,8 @@ import { Rocket, ArrowLeft } from "lucide-react"
 import { apikeycall, createSpacecall, getSpacecall } from "../../utils/api";
 import SpaceCard from "../components/ui/spacecardnext";
 import { useRouter } from "next/navigation";
+import { deleteAPIkeyCall } from "../../utils/apikey";
+import { deleteSpacecall } from "../../utils/space.api";
 
 
 export default function Space(){
@@ -16,20 +18,22 @@ export default function Space(){
     const [allspacedata, setAllspacedata] = useState<{name : string, displayName : string, id : string}[]>([])
     const router = useRouter()
 
-    useEffect(() => {
-      const fetchedData = async () => {
+    const fetchedSpaceData = async () => {
         try {
             setSpaceloading(true)
             const data = await getSpacecall()
 
             setAllspacedata(data.spaces)
+
             setSpaceloading(false)
         } catch (error) {
             console.error(error)
         }
       }
-    
-      fetchedData()
+
+
+    useEffect(() => {
+      fetchedSpaceData()
       
     }, [])
     
@@ -73,6 +77,8 @@ export default function Space(){
     //     )
     // }
 
+
+    
     return (
         <div className=" bg-slate-50 min-h-screen space-y-10">
             {/* navbar */}
@@ -104,7 +110,13 @@ export default function Space(){
                     <div className="grid md:grid-cols-3  gap-5 md:mx-40 p-10">
                         {
                             allspacedata.map((s, k) => (
-                                <SpaceCard name={s.name} key={k} websiteUrl={s.displayName} id={s.id}/>
+                                <SpaceCard name={s.name} key={k} websiteUrl={s.displayName} id={s.id} onAction={async() => {
+                                    await deleteAPIkeyCall(s.id)
+                                    await deleteSpacecall(Number(s.id))
+
+                                    fetchedSpaceData()
+                                    
+                                }}/>
                                 // <SpaceCard name={s.name}  key={k}/>
                             ))
                         }

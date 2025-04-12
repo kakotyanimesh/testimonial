@@ -41,8 +41,8 @@ model Spaces {
 
 model TestimonialInformation {
   id                  Int       @default(autoincrement())   @id
-  adminId             String
-  admin               User     @relation(fields: [adminId], references: [id])
+  adminId             String    @unique
+  admin               User      @relation(fields: [adminId], references: [id])
   spaceId             Int
   space               Spaces    @relation(fields: [spaceId], references: [id])
   customername        String

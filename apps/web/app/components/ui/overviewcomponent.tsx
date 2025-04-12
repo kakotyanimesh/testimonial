@@ -4,11 +4,13 @@ import DashboardCard from "@repo/ui/dashbaordcard"
 import { Copy, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { apikeycall, getAPIcall } from "../../../utils/api";
+import { getAllTestimonialCall } from "../../../utils/testimonial.api";
 
-export default function OverviewComponent({onAction, spaceId} : {onAction : () => void, spaceId : string}) {
+export default function OverviewComponent({onAction, spaceId, testimonialNumbers, stars } : {onAction : () => void, spaceId : string, testimonialNumbers : number, stars : number}) {
     const [copied, setcopied] = useState(false)
 
     const [apikey, setApikey] = useState<string | null>()
+
 
     useEffect(() => {
       const getApikey = async () => {
@@ -18,7 +20,15 @@ export default function OverviewComponent({onAction, spaceId} : {onAction : () =
       }
     
       getApikey()
+      console.log(stars);
+      
+
+      
     }, [])
+    
+    dashbaordcardArray[0]!.number = Number(testimonialNumbers) 
+    dashbaordcardArray[1]!.number = Number(stars)
+
     
 
     const generateAPI = async() => {

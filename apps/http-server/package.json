@@ -10,7 +10,7 @@
     "@types/jsonwebtoken": "^9.0.9"
   },
   "scripts": {
-    "dev": "bun run index.ts",
+    "dev": "bun --hot run index.ts",
     "start": "bun run index.ts"
   },
   "peerDependencies": {

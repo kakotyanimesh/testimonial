@@ -8,3 +8,19 @@ export interface TestimonialQuestionsInterface {
     spaceId : number,
     uniqueLink : string
 }
+
+
+export interface TestimonialData {
+    id : number,
+    adminId : string,
+    approaved : boolean,
+    createdAt : Date,
+    customerCompany : string,
+    customeremail : string,
+    customerimage : string,
+    customername : string,
+    review : string,
+    spaceId : string,
+    stars : string,
+    videoUrl : string
+}

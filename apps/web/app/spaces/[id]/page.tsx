@@ -7,6 +7,9 @@ import OverviewComponent from "../../components/ui/overviewcomponent"
 import CollectionComponent from "../../components/ui/collectioncomponent"
 import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+import { getAllTestimonialCall } from "../../../utils/testimonial.api"
+import { TestimonialData } from "../../../utils/types"
+import TestimonailComponent from "../../components/ui/testimonialcomponent"
 
 export default function  IndividualPage({params} : {
     params : Promise<{
@@ -19,6 +22,23 @@ export default function  IndividualPage({params} : {
     const [spacedata, setSpacedata] = useState<{id : number, name : string, adminId : string, displayName : string}>()
     const [spacebarNumber, setSpacebarNumber] = useState(0)
     const router = useRouter()
+    const [testimonials, settestimonials] = useState<TestimonialData[]>([])
+    const [starts, setStarts] = useState<string | null>(null)
+
+    const fetchedTestimonialData = async () => {
+        try {
+            const res = await getAllTestimonialCall(id)
+
+            // console.log(res);
+            
+            settestimonials(res)
+            
+            // console.log(testimonials);
+            
+        } catch (error) {
+            console.error("error while fetching testimonial data", error)
+        }
+        }
 
     useEffect(() => {
       const getdata = async () =>{
@@ -34,11 +54,39 @@ export default function  IndividualPage({params} : {
       }
         
       getdata()
+      fetchedTestimonialData()
+
+      
     }, [])
 
     // console.log(spacedata.name);
     
     // console.log(spacedata.spaceData.name);
+
+    // console.log(testimonials.map((t) => t.stars));
+    // console.log(testimonials);
+    
+    // console.log(testimonials.map((t) => t.stars).reduce((prev, curr) => prev + curr, 0));
+    
+    // setStarts(testimonials.map((t) => t.stars).reduce((acc, curr) => acc + curr, 0))
+
+    const renderTab = () => {
+        switch (spacebarNumber) {
+            case 0:
+                return <OverviewComponent stars={10} testimonialNumbers={testimonials.length} onAction={() => setSpacebarNumber(2)} spaceId={id}/>
+            case 1: 
+                return <TestimonailComponent/>
+            case 2 : 
+                return <CollectionComponent spaceId={spacedata?.id}/>
+            case 3 : 
+                return <div>Display</div>
+            case 4 : 
+                return <div>Analytics</div>
+            default : 
+                return <OverviewComponent stars={10} testimonialNumbers={testimonials.length} onAction={() => setSpacebarNumber(2)} spaceId={id}/>
+        
+        }
+    }
     
     
     return (
@@ -68,9 +116,13 @@ export default function  IndividualPage({params} : {
 
             </div>
             {/* we are going to render this on the basic of spacebar thingy  */}
+            {/* {
+                spacebarNumber === 0 ? <OverviewComponent stars={10} testimonialNumbers={testimonials.length} onAction={() => setSpacebarNumber(2)} spaceId={id}/> : <CollectionComponent spaceId={spacedata?.id}/>
+            } */}
             {
-                spacebarNumber === 0 ? <OverviewComponent onAction={() => setSpacebarNumber(2)} spaceId={id}/> : <CollectionComponent spaceId={spacedata?.id}/>
+                renderTab()
             }
+
             
         </div>
     )
@@ -84,4 +136,6 @@ const spaceBaArray = [
     {itemname : "Display", isActive : 3},
     {itemname : "Analytics", isActive : 4}
 ]
+
+
 

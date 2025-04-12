@@ -172,3 +172,35 @@ export const getAPIKey = async (req : Request, res : Response) => {
         : res.status(500).json({msg : `Error while fetching api key`})
     }
 }
+
+
+export const deleteAPIkey = async (req : Request, res : Response) => {
+    const spaceId = req.params.spaceId
+
+    const adminId = req.adminId
+    if(!spaceId || !adminId){
+        res.status(403).json({
+            msg : `No space or admin id given`
+        })
+        return
+    }
+    try {
+        await prisma.apiKey.delete({
+            where : {
+                spaceId_userId : {
+                    spaceId : Number(spaceId),
+                    userId : adminId
+                }
+            }
+        })
+
+
+        res.status(200).json({
+            msg : "Api key deleted",
+            // deletedAPI
+        })
+    } catch (error) {
+        error instanceof Error ? res.status(500).json({msg : `Error while api key delete ${JSON.stringify(error.message)}`}) : 
+        res.status(500).json({msg : `Error while api key delete`})
+    }
+}

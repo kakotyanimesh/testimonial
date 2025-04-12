@@ -170,16 +170,9 @@ export const getAllTestimonial = async (req : Request, res : Response) => {
             where : {
                 spaceId : Number(spaceId),
                 adminId : adminId
-            }, 
-            take : 10
+            }
         })
 
-        if(!testimonials || testimonials.length === 0){
-            res.status(404).json({
-                msg : "no testimonial found "
-            })
-            return
-        }
 
         res.status(200).json({
             msg : "All testimonial fetched successfully",

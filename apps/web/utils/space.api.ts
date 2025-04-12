@@ -19,3 +19,4 @@ export const deleteSpacecall = async (spaceId : number) => {
         throw new Error(`error while deleting space ${error}`)
     }
 }
+
