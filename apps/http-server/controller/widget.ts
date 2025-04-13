@@ -10,218 +10,161 @@ export const getwidget = async (req: Request, res: Response) => {
   }
 
   try {
-    const dbCallAPI = await prisma.apiKey.findUnique({
-      where: { key: apikey },
-      include: {
-        spaces: {
-          include: {
-            testimonials: {
-              where: { approaved: true },
-            },
-          },
-        },
+    const testimonialData = await prisma.apiKey.findUnique({
+      where : {
+        key : apikey
       },
-    });
-
-    if (!dbCallAPI || !dbCallAPI.spaces) {
-      res.status(401).json({ msg: "Invalid API key" });
-      return;
-    }
-
-    const tM = dbCallAPI.spaces.testimonials;
-
-    const cardStyles = `
-      .t_container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        justify-content: center;
-        padding: 25px 50px 75px 100px;
-        background: linear-gradient(to bottom, #fff, #dbeafe);
-        font-family: sans-serif;
-      }
-
-      .t_card {
-        width: 320px;
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        transition: transform 0.2s ease;
-        border: 1px solid #e2e8f0;
-      }
-
-      .t_card:hover {
-        transform: translateY(-5px);
-      }
-
-      .t_stars {
-        display: flex;
-        gap: 4px;
-      }
-
-      .t_star {
-        width: 16px;
-        height: 16px;
-        fill: #3b82f6;
-        color: #3b82f6;
-      }
-
-      .t_content {
-        font-size: 14px;
-        color: #1e293b;
-        line-height: 1.4;
-      }
-
-      .t_author {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: auto;
-      }
-
-      .t_author img {
-        width: 48px;
-        height: 48px;
-        border-radius: 9999px;
-        object-fit: cover;
-        border: 2px solid #e2e8f0;
-      }
-
-      .t_author_info {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .t_author_name {
-        font-weight: 600;
-        font-size: 15px;
-      }
-
-      .t_author_company {
-        font-size: 13px;
-        color: #64748b;
-      }
-
-      .t_video_wrapper {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        border-radius: 12px;
-        overflow: hidden;
-        cursor: pointer;
-        background: #000;
-      }
-
-      .t_video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .t_play_btn {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        background-color: rgba(59, 130, 246, 0.4);
-        border: none;
-        cursor: pointer;
-      }
-
-      .t_play_icon {
-        width: 42px;
-        height: 42px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        padding: 6px;
-        fill: white;
-      }
-    `;
-
-    const cardHTML = tM
-      .map((t, idx) => {
-        const filledStar = `<svg class="t_star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="12 2 15 10 23 10 17 15 19 23 12 18 5 23 7 15 1 10 9 10 12 2"/></svg>`;
-        const emptyStar = `<svg class="t_star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon fill="none" stroke="#3b82f6" stroke-width="2" points="12 2 15 10 23 10 17 15 19 23 12 18 5 23 7 15 1 10 9 10 12 2"/></svg>`;
-
-        const starsHTML = Array.from({ length: 5 })
-          .map((_, i) => (i < t.stars ? filledStar : emptyStar))
-          .join("");
-
-        const contentHTML = t.review
-          ? `<div class="t_content">${t.review}</div>`
-          : `
-          <div class="t_video_wrapper" data-video-idx="${idx}">
-            <video id="t_video_${idx}" class="t_video" src="${t.videoUrl}" preload="metadata"></video>
-            <button class="t_play_btn" onclick="togglePlay(${idx})">
-              <svg class="t_play_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M5 3v18l15-9-15-9z"/></svg>
-            </button>
-          </div>`;
-
-        return `
-        <div class="t_card">
-          <div class="t_stars">${starsHTML}</div>
-          ${contentHTML}
-          <div class="t_author">
-            <img src="${t.customerimage}" alt="${t.customername}" />
-            <div class="t_author_info">
-              <div class="t_author_name">${t.customername}</div>
-              <div class="t_author_company">${t.customerCompany}</div>
-            </div>
-          </div>
-        </div>`;
-      })
-      .join("");
-
-    const script = `
-      (function () {
-        const style = \`${cardStyles}\`;
-        const container = document.createElement('div');
-        const shadowHost = document.createElement('div');
-        const shadow = shadowHost.attachShadow({ mode: 'open' });
-
-        shadow.innerHTML = \`
-          <style>\${style}</style>
-          <div class="t_container">
-            ${cardHTML}
-          </div>
-        \`;
-
-        const logicScript = document.createElement('script');
-        logicScript.textContent = \`
-          function togglePlay(idx) {
-            const video = document.getElementById('t_video_' + idx);
-            const btn = document.querySelector('[data-video-idx="' + idx + '"] .t_play_btn');
-            if (video.paused) {
-              video.play();
-              btn.style.display = 'none';
-            } else {
-              video.pause();
-              btn.style.display = 'grid';
-            }
-
-            video.onended = () => {
-              btn.style.display = 'grid';
+      include : {
+        spaces : {
+          include : {
+            testimonials : {
+              where : {
+                approaved : true
+              }
             }
           }
-        \`;
+        }
+      }
+    })
 
-        shadow.appendChild(logicScript);
-        container.appendChild(shadowHost);
-        document.body.appendChild(container);
-      })();
-    `;
+    // console.log(testimonialData?.spaces.testimonials);
 
-    res.setHeader("Content-Type", "application/javascript");
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).send(script);
+    const testimonialCard = testimonialData?.spaces.testimonials.map((t, i) => {
+      const filledStar = `<svg class="t_star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon fill="#3b82f6" points="12 2 15 10 23 10 17 15 19 23 12 18 5 23 7 15 1 10 9 10 12 2"/></svg>`;
+      const emptyStar = `<svg class="t_star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon fill="none" stroke="#3b82f6" stroke-width="2" points="12 2 15 10 23 10 17 15 19 23 12 18 5 23 7 15 1 10 9 10 12 2"/></svg>`;
+
+      const stars = Array.from({length : 5}).map((_, i) => (i < t.stars ? filledStar : emptyStar)).join("")
+      return `
+        <div class="testimonialCard">
+              <div class="stars">
+                ${stars}
+              </div>
+              <h1>${t.review}</h1> 
+              <div class="tcard_customer_div">
+                <img src="${t.customerimage}" alt="user image"/>
+                <div class="tcard_customer_innerDiv">
+                  <h3>${t.customername}</h3>
+                  <p>${t.customerCompany}</p>
+
+                </div>
+              </div>
+        </div>
+        
+      `
+    }).join("")
+
+    const html = `
+      <div class="t_container">
+        ${testimonialCard}
+      </div>
+    `
+
+    const style = `
+      .stars {
+        display : flex;
+        width : 70px;
+        color : blue;
+      }
+      .tcard_customer_div img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .tcard_customer_div h3{
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem; /* which is 14px by default */
+    }
+    .tcard_customer_div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .tcard_customer_innerDiv {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+    .tcard_customer_innerDiv h3{
+        margin: 0;
+        font-size: 0.95rem;
+        /* font-weight: 500; */
+        color: #1d4ed8;
+    }
+    .tcard_customer_innerDiv p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .t_container {
+        display: grid;
+        gap: 10px;
+        margin-left: 20.5rem;
+        margin-right: 20.5rem;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+        /* background-color: red; */
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    @media (min-width: 768px) {
+        .t_container {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+        }
+    
+        .t_container > .testimonialCard:nth-last-child(1):nth-child(3n + 1) {
+          grid-column: 2 / span 1; /* center column */
+        }
+    
+        .t_container > .testimonialCard:nth-last-child(2):nth-child(3n + 1),
+        .t_container > .testimonialCard:nth-last-child(1):nth-child(3n + 2) {
+          justify-self: end;
+        }
+    
+        .t_container > .testimonialCard:nth-last-child(1):nth-child(3n + 2) {
+          justify-self: start;
+        }
+    }       
+
+
+    .testimonialCard {
+        border: 1px solid blue ;
+        background-color: #dbeafe;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        transition: transform 0.2s ease;
+    }
+    .testimonialCard:hover {
+        transform: translateY(-4px);
+    }   
+    `
+  
+    const script = `
+      (function iffee() {
+            const style = document.createElement("style")
+            style.textContent = \`${style}\`
+            document.head.appendChild(style)
+            const divOne = document.createElement("div")
+            divOne.innerHTML = \`${html}\`
+            document.body.appendChild(divOne)
+        })()
+    `
+    res.setHeader("Content-Type", "application/javascript")
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.status(200).send(script)
   } catch (error) {
-    res.status(500).send(
-      `Error: ${error instanceof Error ? error.message : "Unknown error"}`
-    );
+    error instanceof Error ? res.status(500).send(`Error while sending testimonial data ${error}`) :
+    res.status(500).send(`Error while sending testimonial data through script `)
   }
 };

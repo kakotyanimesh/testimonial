@@ -58,16 +58,24 @@ export default function OverviewComponent({onAction, spaceId, testimonialNumbers
                     }
                     <DashboardCard>
                         <div className="md:w-96 w-60 space-y-4">
-                            <h1 className="font-semibold text-lg">API KEY </h1>
+                            <h1 className="font-semibold text-lg">Embed the script to your website</h1>
                             <div className="flex gap-2 md:flex-row flex-col ">
                                 <div className="border-[1px] text-sm border-slate-300 bg-slate-100 py-1 rounded-md md:px-3  w-full max-w-md p-4 overflow-x-auto whitespace-nowrap ">
-                                       {apikey ? apikey : "Click to generate an api key "}
+                                       {apikey ? 
+                                        `<script
+        src="http://localhost:4000/widgets/pasteTestimonial?apikey=${apikey}"
+    async>
+    </script>`
+                                       : "Click to generate an api key "}
                                 </div>
                                 <div>
                                     {
                                         apikey ? (
                                             <Button icon={copied ?  <Check size={16}/> : <Copy size={16}/> } variants="default"  onclick={() => {
-                                                navigator.clipboard.writeText(apikey)
+                                                navigator.clipboard.writeText(`<script
+        src="http://localhost:4000/widgets/pasteTestimonial?apikey=${apikey}"
+    async>
+    </script>`)
                                                 setcopied(!copied)
     
                                                 setTimeout(() => {
