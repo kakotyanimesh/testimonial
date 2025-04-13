@@ -16,6 +16,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     const [submitting, setSubmitting] = useState(false)
     const [formSubmitted, setformSubmitted] = useState(false)
     const [uploadedfilename, setUploadedfilename] = useState<string | null>("")
+    const [uploadedimagefilename, setUploadedimagefilename] = useState<string | null>("")
     const [totalStars, settotalStars] = useState(4)
 
     // refs 
@@ -25,6 +26,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     const companyRef = useRef<HTMLInputElement | null>(null)
     const jobTitleRef = useRef<HTMLInputElement | null>(null)
     const reviewRef = useRef<HTMLTextAreaElement | null>(null)
+    const userimageRef = useRef<HTMLInputElement>(null)
     // const starRef = htmlin
     
 
@@ -44,7 +46,21 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     const uploadVideoFile = () => {
         videoRef.current?.click()
     }
-    
+
+    const handleuploadImge = () => {
+        userimageRef.current?.click()
+    }
+
+    const handleImageChange = () => {
+        const file = userimageRef.current?.files?.[0]
+
+        if(file){
+            setUploadedimagefilename(file.name)
+        } else {
+            setUploadedimagefilename(null)
+        }
+
+    }
     const handleFileChnage = () => {
         const file = videoRef.current?.files?.[0]
 
@@ -59,6 +75,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
     const submitTestimonial = async () => {
         setSubmitting(true)
         try {
+            const userImage = userimageRef.current?.files?.[0]
             const formdata = new FormData()
 
             formdata.append("customername", nameRef.current?.value || "")
@@ -66,6 +83,7 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
             formdata.append("customerCompany", companyRef.current?.value || "") 
             formdata.append("spaceId", questionData?.spaceId.toString() || "")
             formdata.append("stars", (totalStars + 1).toString())
+            formdata.append("customerimage", userImage)
 
             if(spacebarNumber === 0){
                 const file = videoRef.current?.files?.[0]
@@ -123,6 +141,17 @@ export default function CollectTestimonail({params} : {params : Promise<{id : st
                 <div className="w-full text-start space-y-4">
                     <InputBox ref={nameRef} placeholder="Your name " type="text" label="Name"/>
                     <InputBox ref={emailRef} placeholder="your.email@example.com" type="email" label="Email"/>
+                    <div className="text-start">
+                        <h1 className="text-sm font-semibold">Upload Your image</h1> 
+                        <div className="h-24 flex flex-col justify-center items-center border-dashed border-2 text-center border-slate-400 rounded-md">
+                            <input className="hidden" ref={userimageRef} type="file" accept="image/*" onChange={handleImageChange}/>
+                            <div>
+                                <Button title={uploadedimagefilename ? "File uploded" : "Click to upload your file"} variants="default" onclick={handleuploadImge}/>
+                            </div> 
+                            <p className="text-slate-400 text-sm">{uploadedimagefilename ? `selected : ${uploadedimagefilename}` : "`Max 10MB. all image format"}</p>
+                        </div>
+
+                    </div>
                     <div className="grid grid-cols-2 gap-10">
                         <InputBox ref={companyRef} placeholder="Your company name" type="text" label="Company name"/>
                         <InputBox ref={jobTitleRef} placeholder="Your role" type="text" label="Job Title"/>
